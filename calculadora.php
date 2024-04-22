@@ -23,6 +23,18 @@
             $operacao = $_POST["operacao"];
         }
 
+        function somar($num1, $num2){
+            return $num1 + $num2;
+        }
+        
+        function subtrair($num1, $num2){
+            return $num1 - $num2;
+        }
+        
+        function dividir($num1, $num2){
+            return $num1 / $num2;
+        }
+
     ?>
     <h2>Calculadora em php </h2>
 
