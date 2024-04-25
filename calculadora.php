@@ -61,17 +61,30 @@
 
     function fatorar($num1)
     {
-        $resultado = 1;
-        for ($i=1; $i <= $num1; $i++) { 
-            $resultado *= $i;
+        if($num1 >= 0) {
+            $resultado = 1;
+            for ($i=1; $i <= $num1; $i++) { 
+                $resultado *= $i;
+            }
+            return "{$num1}! = {$resultado}";
         }
-        return "{$num1}! = {$resultado}";
+        return "ERRO";
     }
 
 
     // TODO Criar historico e suas funcoes
-  
-  
+    session_start();
+    if (!isset($_SESSION['historico'])) {
+        $_SESSION['historico'] = [];
+    }
+    
+    $historico = $_SESSION['historico'];
+
+    if(isset($_POST["limpar"])) {
+        $historico = [];
+        $_SESSION["historico"] = [];
+    }
+
 
     // TODO Criar salvar conta e voltar a conta salva
     ?>
@@ -99,23 +112,40 @@
                 if (isset($operacao)) {
                     switch ($operacao) {
                         case '+':
-                            echo somar($num1, $num2);
-                            array_push($historico, somar($num1, $num2));
+                            $resultado = somar($num1, $num2);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         case '-':
-                            echo subtrair($num1, $num2);
+                            $resultado = subtrair($num1, $num2);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         case '/':
-                            echo dividir($num1, $num2);
+                            $resultado = dividir($num1, $num2);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         case '*':
-                            echo multiplicar($num1, $num2);
+                            $resultado = multiplicar($num1, $num2);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         case '^':
-                            echo elevar($num1, $num2);
+                            $resultado = elevar($num1, $num2);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         case '!':
-                            echo fatorar($num1);
+                            $resultado = fatorar($num1);
+                            echo $resultado;
+                            array_push($historico, $resultado);
+                            $_SESSION['historico'] = $historico;
                             break;
                         default:
                             echo "Resultado invalido!";
@@ -126,9 +156,17 @@
             </p>
         </div>
         <div>
+            <form method="post">
+                <input type="submit" value="Limpar Historico" name="limpar">
+            </form>
+        </div>
+        <div>
             <h2>Historico</h2>
             <ul>
                 <?php 
+                foreach ($historico as $conta) {
+                    echo  "<li>" . $conta . "<br></li>";
+                }
                 ?>
             </ul>
         </div>
