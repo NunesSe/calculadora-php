@@ -33,7 +33,7 @@
         $historico = [];
     }
 
-    
+
     // Verifica se calcular foi clicado 
     if (isset($_POST["calcular"])) {
         // Pega as variaveis
@@ -58,7 +58,7 @@
                 $_SESSION["resultado"] = elevar($_SESSION["num1"], $_SESSION["num2"]);
                 break;
             case '!':
-                $_SESSION["resultado"] = fatorar($_SESSION["num1"]);
+                $_SESSION["resultado"] = fatorar($_SESSION["num1"], $_SESSION["num2"]);
                 break;
         }
         // Atualizando o historico
@@ -89,11 +89,12 @@
                 $_SESSION["contaSalva"] = elevar($_SESSION["num1"], $_SESSION["num2"]);
                 break;
             case '!':
-                $_SESSION["contaSalva"] = fatorar($_SESSION["num1"]);
+                $_SESSION["contaSalva"] = fatorar($_SESSION["num1"], $_SESSION["num2"]);
                 break;
         }
     }
 
+    // Validação se contaSalva existe, se não seta para ""
     if (isset($_SESSION["contaSalva"])) {
         $contaSalva = $_SESSION["contaSalva"];
     } else {
@@ -101,6 +102,14 @@
     }
 
     // Criação da função recupear operação
+    if (isset($_POST["recuperar"])) {
+        if (isset($_SESSION["contaSalva"])) {
+            $lista = explode(" ", $_SESSION["contaSalva"]);
+            $_SESSION["num1"] = $lista[0];
+            $_SESSION["operacao"] = $lista[1];
+            $_SESSION["num2"] = $lista[2];
+        }
+    }
 
     ?>
 
@@ -113,12 +122,19 @@
         echo $_SESSION['num1'];
         ?>">
         <select name="operacao">
-            <option value="+"> + </option>
-            <option value="-"> - </option>
-            <option value="/"> / </option>
-            <option value="*"> * </option>
-            <option value="^"> ^ </option>
-            <option value="!"> ! </option>
+            <?php
+
+            $operacoes = ["+", "-", "/", "*", "^", "!"];
+            if (isset($_SESSION["operacao"])) {
+                $posicao = array_search($_SESSION["operacao"], $operacoes);
+                unset($operacoes[$posicao]);
+                array_unshift($operacoes, $_SESSION["operacao"]);
+            }
+            foreach ($operacoes as $operacao) {
+                echo "<option value=\"{$operacao}\"> {$operacao} </option>";
+            }
+            ?>
+
         </select>
         <label for="num2">Segundo numero: </label>
         <input type="text" name="num2" value="
@@ -138,20 +154,20 @@
         <p>
             <?php
             // Mostrar resultado da operação
-            echo $_SESSION["resultado"];
+            if (isset($_SESSION["resultado"])) {
+                echo $_SESSION["resultado"];
+            }
             ?>
         </p>
     </div>
-
-
-
-
 
     <div>
         <p>Operação salva:
             <?php
             // Mostra a conta salva
-            echo $_SESSION["contaSalva"];
+            if (isset($_SESSION["contaSalva"])) {
+                echo $_SESSION["contaSalva"];
+            }
             ?>
         </p>
     </div>
@@ -166,7 +182,6 @@
             ?>
         </ul>
     </div>
-
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>

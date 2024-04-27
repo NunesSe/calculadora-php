@@ -33,15 +33,15 @@ function elevar($num1, $num2)
     return  mostrarOperacoes($num1, $num2, "^") . pow($num1,  $num2);
 }
 
-function fatorar($num1)
+function fatorar($num1, $num2)
 {
     if ($num1 >= 0) {
         $resultado = 1;
         for ($i = 1; $i <= $num1; $i++) {
             $resultado *= $i;
         }
-        return "{$num1}! = {$resultado}";
+        return "{$num1} ! {$num2} = {$resultado}";
     }
-    return "ERRO";
+    return "Erro - Operação invalida!";
 }
 ?>
