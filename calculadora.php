@@ -8,8 +8,17 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
 </head>
+<style>
+    body{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F0F8FF;
+        flex-direction: column;
+    }
 
-<body>
+</style>
+<body id="centro">
 
     <?php
     // Iniciar sessao
@@ -113,11 +122,11 @@
 
     ?>
 
-    <h2>Calculadora em php </h2>
-    <form method="post" action="">
-        <label for="num1">Primeiro numero: </label>
-        <input type="text" name="num1" value="<?= $_SESSION["num1"] ?>">
-        <select name="operacao">
+    <h2><span class="badge text-bg-secondary">   Calculadora em php    </span></h2>
+    <form method="post" action="" style="text-align: center;"><br>
+        <label for="num1" ></label>
+        <input class="btn-group" role="group" aria-label="Basic radio toggle button group" type="text" name="num1" value="<?= $_SESSION["num1"] ?>">
+        <select name="operacao" class="dropdown" data-bs-theme="dark">
             <?php
 
             $operacoes = ["+", "-", "/", "*", "^", "!"];
@@ -127,23 +136,25 @@
                 array_unshift($operacoes, $_SESSION["operacao"]);
             }
             foreach ($operacoes as $operacao) {
-                echo "<option value=\"{$operacao}\"> {$operacao} </option>";
+                echo "<option class=\"dropdown-item\" value=\"{$operacao}\"> {$operacao} </option>";
             }
             ?>
 
         </select>
-        <label for="num2">Segundo numero: </label>
-        <input type="text" name="num2" value="<?= $_SESSION["num2"] ?>">
+        <label  for="num2" ></label>
+        <input class="btn-group" role="group" aria-label="Basic radio toggle button group" type="text" name="num2" value="<?= $_SESSION["num2"] ?>">
         <br>
-        <input type="submit" value="Calcular" name="calcular">
-        <input type="submit" value="Salvar Operação" name="salvar">
+        <input  class="btn btn-outline-secondary" type="submit" value="Calcular" name="calcular">  
+        <input  class="btn btn-outline-secondary" type="submit" value="Salvar Operação" name="salvar">
     </form>
     <form method="post">
-        <input type="submit" value="Recuperar Operação" name="recuperar">
-        <input type="submit" value="Limpar Historico" name="limpar">
+        <input  class="btn btn-outline-secondary" type="submit" value="Recuperar Operação" name="recuperar">
+        <input  class="btn btn-outline-secondary" type="submit" value="Limpar Historico" name="limpar">
     </form>
+    <br>
     <div class="">
-        <p>
+        <p class="btn btn-dark">
+            
             <?php
             // Mostrar resultado da operação
             if (isset($_SESSION["resultado"])) {
@@ -154,7 +165,7 @@
     </div>
 
     <div>
-        <p>Operação salva:
+        <p  class="btn btn-secondary">Operação salva:
             <?php
             // Mostra a conta salva
             if (isset($_SESSION["contaSalva"])) {
@@ -163,8 +174,8 @@
             ?>
         </p>
     </div>
-    <div>
-        <h2>Historico</h2>
+    <div><br>
+        <h2 class="btn btn-primary" > Historico</h2>
         <ul>
             <?php
             // Mostar os itens dentro de historico
