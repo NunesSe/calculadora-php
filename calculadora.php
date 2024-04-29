@@ -116,11 +116,7 @@
     <h2>Calculadora em php </h2>
     <form method="post" action="">
         <label for="num1">Primeiro numero: </label>
-        <input type="text" name="num1" value="
-        <?php
-        // Manter o valor após realizar operação 
-        echo $_SESSION['num1'];
-        ?>">
+        <input type="text" name="num1" value="<?= $_SESSION["num1"] ?>">
         <select name="operacao">
             <?php
 
@@ -137,11 +133,7 @@
 
         </select>
         <label for="num2">Segundo numero: </label>
-        <input type="text" name="num2" value="
-        <?php
-        // Manter o valor após realizar operação 
-        echo $_SESSION["num2"];
-        ?>">
+        <input type="text" name="num2" value="<?= $_SESSION["num2"] ?>">
         <br>
         <input type="submit" value="Calcular" name="calcular">
         <input type="submit" value="Salvar Operação" name="salvar">
