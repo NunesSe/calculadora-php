@@ -9,15 +9,15 @@
 
 </head>
 <style>
-    body{
+    body {
         display: flex;
         justify-content: center;
         align-items: center;
         background-color: #F0F8FF;
         flex-direction: column;
     }
-
 </style>
+
 <body id="centro">
 
     <?php
@@ -75,8 +75,8 @@
         $_SESSION['historico'] = $historico;
     }
 
-    // Criação da função salvar operação
-    if (isset($_POST["salvar"])) {
+    function salvarOperacao()
+    {
         $_SESSION["num1"] = trim($_POST["num1"]);
         $_SESSION["num2"] = trim($_POST["num2"]);
         $_SESSION["operacao"] = $_POST["operacao"];
@@ -103,6 +103,11 @@
         }
     }
 
+    // Criação da função salvar operação
+    if (isset($_POST["salvar"])) {
+        salvarOperacao();
+    }
+
     // Validação se contaSalva existe, se não seta para ""
     if (isset($_SESSION["contaSalva"])) {
         $contaSalva = $_SESSION["contaSalva"];
@@ -120,11 +125,30 @@
         }
     }
 
+    
+
+    if (isset($_POST["M"])) {
+        if (!isset($_SESSION["primeiroClique"])) {
+            $_SESSION["primeiroClique"] = true;
+        }
+        if($_SESSION["primeiroClique"] == true) {
+            $_SESSION["primeiroClique"] = false;
+            salvarOperacao();
+        }
+        else if($_SESSION["primeiroClique"] == false ) {
+            $_SESSION["primeiroClique"] = true;
+            $lista = explode(" ", $_SESSION["contaSalva"]);
+            $_SESSION["num1"] = $lista[0];
+            $_SESSION["operacao"] = $lista[1];
+            $_SESSION["num2"] = $lista[2];
+        }
+    }
+
     ?>
 
-    <h2><span class="badge text-bg-secondary">   Calculadora em php    </span></h2>
+    <h2><span class="badge text-bg-secondary"> Calculadora em php </span></h2>
     <form method="post" action="" style="text-align: center;"><br>
-        <label for="num1" ></label>
+        <label for="num1"></label>
         <input class="btn-group" role="group" aria-label="Basic radio toggle button group" type="text" name="num1" value="<?= $_SESSION["num1"] ?>">
         <select name="operacao" class="dropdown" data-bs-theme="dark">
             <?php
@@ -141,20 +165,21 @@
             ?>
 
         </select>
-        <label  for="num2" ></label>
+        <label for="num2"></label>
         <input class="btn-group" role="group" aria-label="Basic radio toggle button group" type="text" name="num2" value="<?= $_SESSION["num2"] ?>">
         <br>
-        <input  class="btn btn-outline-secondary" type="submit" value="Calcular" name="calcular">  
-        <input  class="btn btn-outline-secondary" type="submit" value="Salvar Operação" name="salvar">
+        <input class="btn btn-outline-secondary" type="submit" value="Calcular" name="calcular">
+        <input class="btn btn-outline-secondary" type="submit" value="Salvar Operação" name="salvar">
+        <input class="btn btn-outline-secondary" type="submit" value="M" name="M">
     </form>
     <form method="post">
-        <input  class="btn btn-outline-secondary" type="submit" value="Recuperar Operação" name="recuperar">
-        <input  class="btn btn-outline-secondary" type="submit" value="Limpar Historico" name="limpar">
+        <input class="btn btn-outline-secondary" type="submit" value="Recuperar Operação" name="recuperar">
+        <input class="btn btn-outline-secondary" type="submit" value="Limpar Historico" name="limpar">
     </form>
     <br>
     <div class="">
         <p class="btn btn-dark">
-            
+
             <?php
             // Mostrar resultado da operação
             if (isset($_SESSION["resultado"])) {
@@ -165,7 +190,7 @@
     </div>
 
     <div>
-        <p  class="btn btn-secondary">Operação salva:
+        <p class="btn btn-secondary">Operação salva:
             <?php
             // Mostra a conta salva
             if (isset($_SESSION["contaSalva"])) {
@@ -175,7 +200,7 @@
         </p>
     </div>
     <div><br>
-        <h2 class="btn btn-primary" > Historico</h2>
+        <h2 class="btn btn-primary"> Historico</h2>
         <ul>
             <?php
             // Mostar os itens dentro de historico
